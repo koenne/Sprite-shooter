@@ -1,0 +1,47 @@
+body{
+  /*  background-image: url("img/background.png");*/ 
+background-size: cover;
+background-repeat: no-repeat;
+background-color: #000000;
+color: white;
+height: 100%;
+margin: 0;
+box-shadow: none;
+overflow: hidden;
+}
+#image {
+height: 32px;
+width: 32px;
+background: 
+url('sprites/alice.png') 0px 0px;
+position: fixed;
+left: 0;
+top: 0;
+image-rendering: crisp-edges;
+transform: scale(2);
+}   
+.buttoncontainer {
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 23vh;
+    float: right;
+    position:fixed;
+    bottom:0;
+    right:0;
+    background-color: #ffffff3c;
+    border: 0.4vh solid #ffffff;
+    border-radius: 2vh;
+}
+#walkingbox{
+width: 0px;
+overflow: hidden;
+background-color: black;
+border: none;
+color: black;
+margin-top: 100%;
+margin-left: 100%;
+}
+#stuff{
+    height: 100%;
+
+}
