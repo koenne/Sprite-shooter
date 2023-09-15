@@ -3,6 +3,7 @@
 //Add all variables
 let imageheight = null;
 let imagewidth = null;
+let charactersArray = ['alice', 'aya', 'benben', 'chen', 'chirno', 'daiyousei', 'eirin', 'hatate', 'hijiri', 'hina', 'huto', 'ichirin', 'kagerou', 'kaguya', 'kanako', 'keine', 'keinekimo', 'kisume', 'koa', 'kogasa', 'koishi', 'komachi', 'kyoko', 'lily_black', 'lily_white', 'mamizo', 'marisa', 'meirin', 'melran', 'merancory', 'miko', 'minoriko', 'mistia', 'moko', 'momiji', 'murasa', 'nazu', 'nitori', 'nue', 'orin', 'pal', 'patyuri', 'raiko', 'ran', 'reimu', 'rety', 'riguru', 'rinnosuke', 'ririka', 'rumia', 'runasa', 'sakuya', 'sanae', 'seiga', 'seija', 'sekibanki', 'shannhai', 'shinmyoumaru', 'shizuha', 'sikieiki', 'suika', 'suwako', 'tei', 'tenshi', 'tojiko', 'tojiko2', 'toramaru', 'udonge', 'utsuho', 'wakasagi', 'yakumoyukari', 'yamame', 'yatsuhashi', 'yoshika', 'yoshika2', 'youmu', 'yuugi', 'yuuka', 'yuyuko'];
 const characters = "tenshi";
 let tID;
 let checkingsss = 0;
@@ -96,18 +97,12 @@ const animateScript = () => {
 const start = () => {
     let start = Date.now(); //Sets the startime for when the script runs
     let start2 = Date.now(); //Sets the startime for sprites
-
+    speedLeft = 100 / screen.width * 6;
+    speedUp = 100 / screen.height * 6;
     timer = setInterval(function () {
         let timePassed = Date.now() - start; //Checks how much time has been passed in total
         let timePassed2 = Date.now() - start2; //Checks how much time has been passed in total for a sprite
         let amount = timePassed2 / 550 + -10;
-        if (amount >= 4) // When the timer reaches 4 it resets to a new sprite, the position of the <div> stays
-        {
-            start2 = Date.now(); // Resets the date so you get the time of the new sprite
-
-            random = Math.floor(Math.random() * characters.length); //Get a new random image
-            getRandomImage()
-        }
         draw(); // For the timer so the sprite moves across the screen.
     }, 20);
 }
@@ -151,8 +146,7 @@ const draw = () => {
             image.style.top = amount + "%";
             break;
     }
-    input.focus();
-input.select();
+
 }
 
 const stopAnimate = () => {
@@ -216,8 +210,6 @@ amount = -10; // The place where it starts vertically (-10 if offscreen, 110 for
 image.style.top = amount + "%";
 animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
 start(); // Sets down a lot of variables so everything works
-getRandomImage(characters, 'sprites/'); // Gets the first random image
-
 const ResetAllTimers = () => {
     // Set a fake timeout to get the highest timeout id
     let highestTimeoutId = setTimeout(";");
@@ -226,30 +218,87 @@ const ResetAllTimers = () => {
     }
 }
 
-let textinput;
-let elem = document.querySelector('input');
-var input = document.getElementById('walkingbox');
-input.focus();
-input.select();
-elem.addEventListener('keypress', function(event) {
-    textinput = event.key.toLocaleLowerCase();
-    switch (textinput) {
-        case "w": 
-            GoUp();
-            break;
-        case "d":
-            GoRight();
-            break;
-        case "a":
-            GoLeft();
-            break;
-        case "s":
-            GoDown();
-            break;
+document.addEventListener("keypress", function onPress(event) {
+
     
-        default:
-            break;
-    }
-    document.getElementById('myInput').value = 'walkingbox';
+
 });
 
+var select = document.getElementById("selectCharacter");
+
+for(var i = 0; i < charactersArray.length; i++) {
+    var opt = charactersArray[i];
+    var el = document.createElement("option");
+    el.textContent = opt.charAt(0).toUpperCase() + opt.slice(1);;
+    el.value = opt;
+    el.setAttribute("onclick","changeCharacters("+ "'" + charactersArray[i] + "'" +")");
+    select.appendChild(el);
+}
+
+const changeCharacters = (newCharacter) => {
+    document.getElementById("image").style.background = `url(${"sprites/" + newCharacter + ".png"})`;
+}
+let isbusy =  0;
+document.addEventListener("keydown", (e) => {
+    if (!e.repeat) {
+        switch (e.key.toLowerCase()) {
+            case "w": 
+                GoUp();
+                break;
+            case "d":
+                GoRight();
+                break;
+            case "a":
+                GoLeft();
+                break;
+            case "s":
+                GoDown();
+                break;
+        
+            default:
+                break;
+    }
+    console.log(`Key "${e.key}" pressed [event: keydown]`);
+      } else {
+        switch (e.key.toLowerCase()) {
+            case "w": 
+                GoUp();
+                break;
+            case "d":
+                GoRight();
+                break;
+            case "a":
+                GoLeft();
+                break;
+            case "s":
+                GoDown();
+                break;
+        
+            default:
+                break;
+    }
+    console.log(`Key "${e.key}" repeating [event: keydown]`);
+      }
+            
+        if (isbusy == 1) {
+
+        }
+        else{
+            isbusy = 1;
+            animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
+            start(); // Sets down a lot of variables so everything works    
+        }
+
+   
+
+  });
+
+  document.addEventListener("keyup", (e) => {
+        speedLeft = 0;
+        speedUp = 0;
+        console.log(`Key "${e.key}" released [event: keyup]`);
+        isbusy = 0; 
+        ResetAllTimers();
+        document.getElementById("image").style.backgroundPosition =
+                `-${32}px ${height}px`;
+  });  
