@@ -7,11 +7,25 @@
     <title>Fight</title>
 </head>
 <body>
-    <div class="container">
+    <div class="menus">
+        <h2>Toggle menu</h2>
+        <button onclick="showsize()">Resize</button>
+        <button onclick="showcharacter()">character selection</button>
     </div>
-    <select id="selectCharacter">
-        <option>Choose a character</option>
-    </select>
+    <div id="scalecontainer">
+        <button class="scaleButton" onclick="resizesmall()">Size -</button>
+        <button class="scaleButton" onclick="resizereset()">Size reset</button>
+        <button class="scaleButton" onclick="resizebig()">Size +</button><br>
+        <h7>Set scale</h7><br>
+        <input id="resizeCustom" type="number" min="0.01" max="25" maxlength="2">
+        <button onclick="customResize()">Submit</button>
+    </div>
+    <div id="characterSelecter">
+        <select id="selectCharacter">
+            <option>Choose a character</option>
+            <option onclick="randomcharactermoment()">Random</option>
+        </select>
+    </div>
     <div id="image""></div>
     <script src="SpriteScript.js"></script>
 </body>

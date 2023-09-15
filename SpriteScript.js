@@ -13,8 +13,8 @@ let whichWay = "up";
 let speedLeft = 0.3;
 let speedUp = 0.5;
 let elementExists = document.getElementById("sprite-information");
-let size = 1;
-let customSize = 1;
+let size = 2;
+let customSize = 2;
 
 //Checks if the div exists where the image will be
 if (document.getElementById("image") == null) {
@@ -216,10 +216,11 @@ for(var i = 0; i < charactersArray.length; i++) {
     el.setAttribute("onclick","changeCharacters("+ "'" + charactersArray[i] + "'" +")");
     select.appendChild(el);
 }
-let isItAnimated = 0;
 const changeCharacters = (newCharacter) => {
     document.getElementById("image").style.background = `url(${"sprites/" + newCharacter + ".png"})`;
 }
+
+let isItAnimated = 0;
 let otherPress =  0;
 let keypressed = [];
 document.addEventListener("keydown", (e) => {
@@ -324,3 +325,50 @@ document.addEventListener("keydown", (e) => {
     }
 
   });  
+ let random = Math.floor(Math.random()*charactersArray.length);
+  const randomcharactermoment = () => {
+    randomcharacter = charactersArray[random];
+    document.getElementById("image").style.background = `url(${"sprites/" + randomcharacter + ".png"})`;
+  }
+
+  const resizebig = () => {
+    size = size + 0.2
+    document.getElementById("image").style.transform = 'scale('+ size + ')';
+}
+const resizesmall = () => {
+    size = size - 0.2
+    document.getElementById("image").style.transform = 'scale('+ size + ')';
+}
+const resizereset = () => {
+    size = 2;
+    document.getElementById("image").style.transform = 'scale(2)';
+}
+const customResize = () => {
+    customSize = document.getElementById("resizeCustom").value;
+    size = customSize;
+    if(customSize > 25)
+    {
+        customSize = 25;
+        alert("25 is the max amount! It has been set to 25")
+    }
+    document.getElementById("resizeCustom").value = "";
+    document.getElementById("image").style.transform = 'scale('+ customSize +')';
+}
+
+const showsize = () => {
+    if (document.getElementById('scalecontainer').style.display == 'block') {
+        document.getElementById('scalecontainer').style.display = 'none';
+    } else {
+        document.getElementById('scalecontainer').style.display = 'block';
+    }
+}
+document.getElementById('scalecontainer').style.display = 'none';
+
+const showcharacter = () => {
+    if (document.getElementById('characterSelecter').style.display == 'block') {
+        document.getElementById('characterSelecter').style.display = 'none';
+    } else {
+        document.getElementById('characterSelecter').style.display = 'block';
+    }
+}
+document.getElementById('characterSelecter').style.display = 'none';
