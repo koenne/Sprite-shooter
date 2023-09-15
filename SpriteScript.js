@@ -1,4 +1,4 @@
-//Any questions about this script? Contact me on Discord: koenne#2625
+//Any questions about this script? Contact me on Discord: koenne
 
 //Add all variables
 let imageheight = null;
@@ -10,10 +10,8 @@ let checkingsss = 0;
 let height = null;
 let frames = 32;
 let whichWay = "up";
-let speedLeft = 0.05;
-let speedUp = 0.05;
-speedLeft = 100 / screen.width * 6;
-speedUp = 100 / screen.height * 6;
+let speedLeft = 0.3;
+let speedUp = 0.5;
 let elementExists = document.getElementById("sprite-information");
 let size = 1;
 let customSize = 1;
@@ -97,8 +95,8 @@ const animateScript = () => {
 const start = () => {
     let start = Date.now(); //Sets the startime for when the script runs
     let start2 = Date.now(); //Sets the startime for sprites
-    speedLeft = 100 / screen.width * 6;
-    speedUp = 100 / screen.height * 6;
+    speedLeft = 0.3;
+    speedUp = 0.5;
     timer = setInterval(function () {
         let timePassed = Date.now() - start; //Checks how much time has been passed in total
         let timePassed2 = Date.now() - start2; //Checks how much time has been passed in total for a sprite
@@ -110,6 +108,8 @@ const start = () => {
 //Animates the script over the screen
 const draw = () => {
     //A formula that slides the image across the screen.
+    speedLeft = 0.3;
+    speedUp = 0.5;
     let amount = 0;
     imageLeft = image.style.left;
     imageTop = image.style.top;
@@ -190,18 +190,6 @@ const GoUp = () => {
         `-${position}px ${height}px`;
 }
 
-const StopWalking = () => {
-    if (speedLeft > 0) {
-        speedLeft = 0;
-        speedUp = 0;
-        document.getElementById("stopButton").innerHTML = "Start";
-    } else {
-        speedLeft = 100 / screen.width * 3;
-        speedUp = 100 / screen.height *3;
-        document.getElementById("stopButton").innerHTML = "Stop";
-    }
-}
-
 // Run these in order to start the script completely. If you want it to start with a click, build a function around it
 imageinfo(`sprites/${characters}`); // Get info of the images so it can calculate everything
 let amount = 10 //The place where it starts horizontally (-10 if offscreen, 110 for the opposite side)
@@ -217,12 +205,6 @@ const ResetAllTimers = () => {
         clearTimeout(i);
     }
 }
-
-document.addEventListener("keypress", function onPress(event) {
-
-    
-
-});
 
 var select = document.getElementById("selectCharacter");
 
@@ -276,22 +258,23 @@ document.addEventListener("keydown", (e) => {
             console.log("Hello!");
         }
     }
-   
+    isItAnimated = 1;
 
     console.log(`Key "${e.key}" pressed [event: keydown]`);
     console.log(keypressed);
       } else {
         isItAnimated = 1;
+        keypressed.push(e.key);
+        console.log(keypressed);
     console.log(`Key "${e.key}" repeating [event: keydown]`);
     }
   });
 
   document.addEventListener("keyup", (e) => {
     console.log(`Key "${e.key}" released [event: keyup]`);
-    const removeitem = keypressed.indexOf(e.key.toLocaleLowerCase());
-    if (removeitem > -1) { // only splice array when item is found
-      keypressed.splice(removeitem, 999); // 2nd parameter means how many it removes
-    }
+    keypressed = keypressed.filter(function (letter) {
+        return letter !== e.key;
+    });
     isItAnimated = 1;
     console.log(keypressed);
     if (keypressed.length === 0) {
@@ -304,7 +287,7 @@ document.addEventListener("keydown", (e) => {
     }
     else{ //Makes sure that if another button is still pressed it continues
         let lastElement = keypressed[keypressed.length - 1];
-        switch (e.key.toLowerCase()) {
+        switch (lastElement.toLowerCase()) {
             case "w": 
                 GoUp();
                 keypressed.push("w");
