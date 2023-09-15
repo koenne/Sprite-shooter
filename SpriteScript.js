@@ -208,8 +208,8 @@ let amount = 10 //The place where it starts horizontally (-10 if offscreen, 110 
 image.style.left = amount + "%";
 amount = -10; // The place where it starts vertically (-10 if offscreen, 110 for the opposite side)
 image.style.top = amount + "%";
-animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
-start(); // Sets down a lot of variables so everything works
+//animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
+//start(); // Sets down a lot of variables so everything works
 const ResetAllTimers = () => {
     // Set a fake timeout to get the highest timeout id
     let highestTimeoutId = setTimeout(";");
@@ -234,71 +234,110 @@ for(var i = 0; i < charactersArray.length; i++) {
     el.setAttribute("onclick","changeCharacters("+ "'" + charactersArray[i] + "'" +")");
     select.appendChild(el);
 }
-
+let isItAnimated = 0;
 const changeCharacters = (newCharacter) => {
     document.getElementById("image").style.background = `url(${"sprites/" + newCharacter + ".png"})`;
 }
-let isbusy =  0;
+let otherPress =  0;
+let keypressed = [];
 document.addEventListener("keydown", (e) => {
     if (!e.repeat) {
         switch (e.key.toLowerCase()) {
             case "w": 
                 GoUp();
+                keypressed.push("w");
+                otherPress = 0;
                 break;
             case "d":
                 GoRight();
+                keypressed.push("d");
+                otherPress = 0;
                 break;
             case "a":
                 GoLeft();
+                keypressed.push("a");
+                otherPress = 0;
                 break;
             case "s":
                 GoDown();
+                keypressed.push("s");
+                otherPress = 0;
                 break;
         
             default:
+                otherPress = 1;
                 break;
-    }
-    console.log(`Key "${e.key}" pressed [event: keydown]`);
-      } else {
-        switch (e.key.toLowerCase()) {
-            case "w": 
-                GoUp();
-                break;
-            case "d":
-                GoRight();
-                break;
-            case "a":
-                GoLeft();
-                break;
-            case "s":
-                GoDown();
-                break;
-        
-            default:
-                break;
-    }
-    console.log(`Key "${e.key}" repeating [event: keydown]`);
-      }
-            
-        if (isbusy == 1) {
 
-        }
-        else{
-            isbusy = 1;
+    }
+    if (otherPress == 0) {
+        if (isItAnimated == 0){
             animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
-            start(); // Sets down a lot of variables so everything works    
+            start(); // Sets down a lot of variables so everything works 
+            console.log("Hello!");
         }
-
+    }
    
 
+    console.log(`Key "${e.key}" pressed [event: keydown]`);
+    console.log(keypressed);
+      } else {
+        isItAnimated = 1;
+    console.log(`Key "${e.key}" repeating [event: keydown]`);
+    }
   });
 
   document.addEventListener("keyup", (e) => {
+    console.log(`Key "${e.key}" released [event: keyup]`);
+    const removeitem = keypressed.indexOf(e.key.toLocaleLowerCase());
+    if (removeitem > -1) { // only splice array when item is found
+      keypressed.splice(removeitem, 999); // 2nd parameter means how many it removes
+    }
+    isItAnimated = 1;
+    console.log(keypressed);
+    if (keypressed.length === 0) {
         speedLeft = 0;
         speedUp = 0;
-        console.log(`Key "${e.key}" released [event: keyup]`);
-        isbusy = 0; 
         ResetAllTimers();
+        isItAnimated = 0;
         document.getElementById("image").style.backgroundPosition =
-                `-${32}px ${height}px`;
+        `-${32}px ${height}px`;
+    }
+    else{ //Makes sure that if another button is still pressed it continues
+        let lastElement = keypressed[keypressed.length - 1];
+        switch (e.key.toLowerCase()) {
+            case "w": 
+                GoUp();
+                keypressed.push("w");
+                otherPress = 0;
+                break;
+            case "d":
+                GoRight();
+                keypressed.push("d");
+                otherPress = 0;
+                break;
+            case "a":
+                GoLeft();
+                keypressed.push("a");
+                otherPress = 0;
+                break;
+            case "s":
+                GoDown();
+                keypressed.push("s");
+                otherPress = 0;
+                break;
+        
+            default:
+                otherPress = 1;
+                break;
+
+    }
+    if (otherPress == 0) {
+        if (isItAnimated == 0){
+            animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
+            start(); // Sets down a lot of variables so everything works 
+            console.log("Hello!");
+        }
+    }
+    }
+
   });  
