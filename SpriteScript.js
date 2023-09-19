@@ -17,6 +17,9 @@ let size = 2;
 let customSize = 2;
 let audio = document.getElementById("audio");
 
+let speedLeftSpeedup = 0.3;
+let speedUpSpeedup = 0.5;
+
 //Checks if the div exists where the image will be
 if (document.getElementById("image") == null) {
     //If it doesn't exist, it'll create one.
@@ -121,28 +124,28 @@ const draw = () => {
             {
                 imageLeft = -10;
             }
-            amount = +imageLeft + +speedLeft; // Calculates how much it has to move
+            amount = +imageLeft + +speedLeftSpeedup; // Calculates how much it has to move
             image.style.left = amount + "%"; // Adds it to the style so it happens. The % is there so it works on all resolutions.
             break;
         case "left":
             if (imageLeft <= -10) {
                 imageLeft = 105;
             }
-            amount = +imageLeft - +speedLeft;
+            amount = +imageLeft - +speedLeftSpeedup;
             image.style.left = amount + "%";
             break;
         case "up":
             if (imageTop <= -10) {
                 imageTop = 105;
             }
-            amount = +imageTop - +speedUp;
+            amount = +imageTop - +speedUpSpeedup;
             image.style.top = amount + "%";
             break;
         case "down":
             if (imageTop >= 105) {
                 imageTop = -10;
             }
-            amount = +imageTop + +speedUp;
+            amount = +imageTop + +speedUpSpeedup;
             image.style.top = amount + "%";
             break;
     }
@@ -389,14 +392,26 @@ const showspeed = () => {
 document.getElementById('speedcontainer').style.display = 'none';
 
 const speedMinus = () => {
-    speedLeft = +speedLeft - +0.1;
-    speedUp = +speedUp - +0.1;
+    if (speedLeftSpeedup > 0.1) {
+        speedLeftSpeedup = speedLeft - 0.2;
+        speedLeft = speedLeftSpeedup;
+        speedUpSpeedup =  speedUp - 0.1;
+        speedUp = speedUpSpeedup;
+    }
+    else{
+
+    }
+  
 }
 const speedPlus = () => {
-    speedLeft = +speedLeft + +0.1;
-    speedUp = +speedUp + +0.1;
+    speedLeftSpeedup = speedLeft + 0.2;
+    speedLeft = +speedLeftSpeedup;
+    speedUpSpeedup = speedUp + 0.4;
+    speedUp = speedUpSpeedup;   
 }
 const speedReset = () => {
+    speedLeftSpeedup = 0.3;
     speedLeft = 0.3;
+    speedUpSpeedup = 0.5;
     speedUp = 0.5;
 }
