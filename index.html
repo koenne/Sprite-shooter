@@ -11,6 +11,7 @@
         <h2>Toggle menu</h2>
         <button onclick="showsize()">Resize</button>
         <button onclick="showcharacter()">character selection</button>
+        <button onclick="showspeed()">Speed</button>
     </div>
     <div id="scalecontainer">
         <button class="scaleButton" onclick="resizesmall()">Size -</button>
@@ -26,6 +27,12 @@
             <option onclick="randomcharactermoment()">Random</option>
         </select>
     </div>
+    <div id="speedcontainer">
+        <button onclick="speedMinus()">Speed -</button>
+        <button onclick="speedReset()">Speed reset</button>
+        <button onclick="speedPlus()">Speed +</button>
+    </div>
+    <audio id="audio" src="sounds/walk.mp3"></audio>
     <div id="image""></div>
     <script src="SpriteScript.js"></script>
 </body>

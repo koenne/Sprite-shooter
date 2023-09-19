@@ -15,6 +15,7 @@ let speedUp = 0.5;
 let elementExists = document.getElementById("sprite-information");
 let size = 2;
 let customSize = 2;
+let audio = document.getElementById("audio");
 
 //Checks if the div exists where the image will be
 if (document.getElementById("image") == null) {
@@ -78,7 +79,7 @@ const getRandomImage = (imgAr, path) => {
 const animateScript = () => {
     imageinfo(`sprites/${characters}`);
     let position = 0; //With how much pixels the pictures moves
-    let interval = 150; //In how many ms the image moves
+    let interval = 100; //In how many ms the image moves
     let diff = frames; //The difference in pixels each frame
     tID = setInterval(() => { //This activates everytime the interval amount reaches (aka 250ms)
         document.getElementById("image").style.backgroundPosition =
@@ -108,8 +109,7 @@ const start = () => {
 //Animates the script over the screen
 const draw = () => {
     //A formula that slides the image across the screen.
-    speedLeft = 0.3;
-    speedUp = 0.5;
+    
     let amount = 0;
     imageLeft = image.style.left;
     imageTop = image.style.top;
@@ -230,21 +230,25 @@ document.addEventListener("keydown", (e) => {
                 GoUp();
                 keypressed.push("w");
                 otherPress = 0;
+                audio.play();
                 break;
             case "d":
                 GoRight();
                 keypressed.push("d");
                 otherPress = 0;
+                audio.play();
                 break;
             case "a":
                 GoLeft();
                 keypressed.push("a");
                 otherPress = 0;
+                audio.play();
                 break;
             case "s":
                 GoDown();
                 keypressed.push("s");
                 otherPress = 0;
+                audio.play();
                 break;
         
             default:
@@ -252,6 +256,7 @@ document.addEventListener("keydown", (e) => {
                 break;
 
     }
+
     if (otherPress == 0) {
         if (isItAnimated == 0){
             animateScript(); // Animates the sprite and calls out the draw so it walks over the screen
@@ -281,6 +286,7 @@ document.addEventListener("keydown", (e) => {
     if (keypressed.length === 0) {
         speedLeft = 0;
         speedUp = 0;
+        audio.pause();
         ResetAllTimers();
         isItAnimated = 0;
         document.getElementById("image").style.backgroundPosition =
@@ -372,3 +378,25 @@ const showcharacter = () => {
     }
 }
 document.getElementById('characterSelecter').style.display = 'none';
+
+const showspeed = () => {
+    if (document.getElementById('speedcontainer').style.display == 'block') {
+        document.getElementById('speedcontainer').style.display = 'none';
+    } else {
+        document.getElementById('speedcontainer').style.display = 'block';
+    }
+}
+document.getElementById('speedcontainer').style.display = 'none';
+
+const speedMinus = () => {
+    speedLeft = +speedLeft - +0.1;
+    speedUp = +speedUp - +0.1;
+}
+const speedPlus = () => {
+    speedLeft = +speedLeft + +0.1;
+    speedUp = +speedUp + +0.1;
+}
+const speedReset = () => {
+    speedLeft = 0.3;
+    speedUp = 0.5;
+}
