@@ -358,7 +358,7 @@ const customResize = () => {
     if(customSize > 25)
     {
         customSize = 25;
-        alert("25 is the max amount! It has been set to 25")
+        alert("25 is the max amount! It has been set to 25");
     }
     document.getElementById("resizeCustom").value = "";
     document.getElementById("image").style.transform = 'scale('+ customSize +')';
