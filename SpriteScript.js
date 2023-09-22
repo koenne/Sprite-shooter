@@ -352,6 +352,17 @@ const resizereset = () => {
     size = 2;
     document.getElementById("image").style.transform = 'scale(2)';
 }
+
+// Get the input field
+const input = document.getElementById("resizeCustom");
+
+// Execute a function when the user presses a key on the keyboard
+input.addEventListener("keypress", function(event) {
+  // If the user presses the "Enter" key on the keyboard
+  if (event.key === "Enter") {
+    customResize();
+  }
+}); 
 const customResize = () => {
     customSize = document.getElementById("resizeCustom").value;
     size = customSize;
@@ -393,21 +404,26 @@ document.getElementById('speedcontainer').style.display = 'none';
 
 const speedMinus = () => {
     if (speedLeftSpeedup > 0.1) {
-        speedLeftSpeedup = speedLeft - 0.2;
-        speedLeft = speedLeftSpeedup;
-        speedUpSpeedup =  speedUp - 0.1;
-        speedUp = speedUpSpeedup;
-    }
-    else{
 
-    }
-  
+        speedLeft = speedLeftSpeedup;
+        speedLeftSpeedup = speedLeft - 0.2;
+        if (speedUpSpeedup < 0.1) {
+            speedUp = speedUpSpeedup;
+            speedUpSpeedup =  parseInt(speedUp) - 0.1;
+        }
+        else{
+            speedUp = 0.2;
+            speedUpSpeedup = speedUp;
+        }
+    }  
 }
 const speedPlus = () => {
-    speedLeftSpeedup = speedLeft + 0.2;
+
     speedLeft = +speedLeftSpeedup;
-    speedUpSpeedup = speedUp + 0.4;
+    speedLeftSpeedup = speedLeft + 0.2;
+
     speedUp = speedUpSpeedup;   
+    speedUpSpeedup = speedUp + 0.4;
 }
 const speedReset = () => {
     speedLeftSpeedup = 0.3;
