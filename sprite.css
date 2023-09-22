@@ -46,14 +46,16 @@ margin-left: 100%;
 
 }
 button, select, option{
-  padding: 10px;
   margin-left: 15px;
   margin-top: 15px;
 }
 .allbuttons{
   width: 400px;
-  float: left;
   text-align: center;
+  border: rgb(99, 99, 99) solid 2px;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: rgb(26, 26, 26);
 }
 
 #button-85 {
@@ -123,7 +125,7 @@ button, select, option{
   border-radius: 10px;
 }
 
-#selectCharacter{
+#selectCharacter, input{
   padding: 0.6em 2em;
   border: none;
   outline: none;
